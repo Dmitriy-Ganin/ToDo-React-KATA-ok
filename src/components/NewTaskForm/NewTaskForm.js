@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import './NewTaskForm.css';
+import { Component } from 'react'
+import './NewTaskForm.css'
 
 export default class NewTaskForm extends Component {
   state = {
     label: '',
-  };
+  }
 
   onLabelChange = (e) => {
     this.setState({
       label: e.target.value,
-    });
-  };
+    })
+  }
 
   onSubmit = (e) => {
     //исключение действия по умолчанию (стр не перезагружается)
-    e.preventDefault();
-    this.props.onTaskCreate(this.state.label);
+    e.preventDefault()
+    this.props.onTaskCreate(this.state.label)
     this.setState({
       label: '',
-    });
-  };
+    })
+  }
 
   render() {
     return (
@@ -28,10 +28,10 @@ export default class NewTaskForm extends Component {
           className="new-todo"
           value={this.state.label}
           placeholder="What needs to be done?"
-          autoFocus
+          //autoFocus
           onChange={this.onLabelChange}
         />
       </form>
-    );
+    )
   }
 }

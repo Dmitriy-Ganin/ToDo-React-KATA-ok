@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import PropTypes from 'prop-types';
-import './Task.css';
+import { Component } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import PropTypes from 'prop-types'
+import './Task.css'
 
 export default class Task extends Component {
   static defaultProps = {
@@ -13,7 +13,7 @@ export default class Task extends Component {
     onComplete: () => {},
     onEditStart: () => {},
     onDeleted: () => {},
-  };
+  }
 
   static propTypes = {
     completed: PropTypes.bool,
@@ -24,34 +24,34 @@ export default class Task extends Component {
     onComplete: PropTypes.func,
     onEditStart: PropTypes.func,
     onDeleted: PropTypes.func,
-  };
+  }
 
   state = {
     taskLabel: this.props.description,
-  };
+  }
   //изменение задачи. начало
   onTaskEdit = (e) => {
     this.setState({
       //получаем текущее значение инпута
       taskLabel: e.target.value,
-    });
-  };
+    })
+  }
   //вызываем перед отправкой данных формы
   //e содержит информацию о событии, которое наступило, и делали этого события
   onSubmitHandler = (e) => {
     //отменяет перезагрузку страницы
-    e.preventDefault();
+    e.preventDefault()
     //получаем onEditEnd и id из props
-    const { onEditEnd, id } = this.props;
+    const { onEditEnd, id } = this.props
     //получаем taskLabel из state (стр 29-30)
-    const { taskLabel } = this.state;
+    const { taskLabel } = this.state
     //изменение задачи. начало
-    onEditEnd(taskLabel, id);
-  };
+    onEditEnd(taskLabel, id)
+  }
 
   getEditField = () => {
     //извлекаем из props editing, по нему смотрим на изменении или нет
-    const { editing } = this.props;
+    const { editing } = this.props
     //если на изменении, выводим инпут
     if (editing) {
       return (
@@ -59,14 +59,14 @@ export default class Task extends Component {
         <form onSubmit={this.onSubmitHandler}>
           <input type="text" className="edit" value={this.state.taskLabel} onChange={this.onTaskEdit} />
         </form>
-      );
+      )
     }
-  };
+  }
 
   render() {
-    const { completed, editing, id, description, createTime, onComplete, onEditStart, onDeleted } = this.props;
+    const { completed, editing, id, description, createTime, onComplete, onEditStart, onDeleted } = this.props
 
-    const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ');
+    const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')
 
     return (
       <li className={classNames} key={id}>
@@ -82,6 +82,6 @@ export default class Task extends Component {
 
         {this.getEditField()}
       </li>
-    );
+    )
   }
 }

@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import TaskFilter from '../TaskFilter/TaskFilter';
+import TaskFilter from '../TaskFilter/TaskFilter'
 
-import './Footer.css';
+import './Footer.css'
 
 export default class Footer extends Component {
   static defaultProps = {
     todoCount: 0,
     onFilter: () => {},
     onClearСompleted: () => {},
-  };
+  }
 
   static propTypes = {
     todoCount: PropTypes.number,
     onFilter: PropTypes.func,
     onClearСompleted: PropTypes.func,
-  };
+  }
 
   render() {
-    const { todoCount, onFilter, onClearСompleted, filters } = this.props;
+    const { todoCount, onFilter, onClearСompleted, filters } = this.props
     //Строка 27 -передаем значение фильтра и массив кнопок-фильтров в TaskFilter
     return (
       <footer className="footer">
@@ -29,6 +29,6 @@ export default class Footer extends Component {
           Clear completed
         </button>
       </footer>
-    );
+    )
   }
 }
