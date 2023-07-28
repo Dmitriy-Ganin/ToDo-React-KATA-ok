@@ -2,7 +2,7 @@ import { Component } from 'react'
 
 import Footer from '../Footer'
 import NewTaskForm from '../NewTaskForm'
-import TaskList from '../TaskList/TaskList'
+import TaskList from '../TaskList'
 
 import './App.css'
 
