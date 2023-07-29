@@ -20,7 +20,7 @@ export default class App extends Component {
     ],
   }
   //создание задачи
-  createTask = (label) => ({
+  createNewTask = (label) => ({
     description: label,
     createTime: new Date(),
     completed: false,
@@ -58,7 +58,7 @@ export default class App extends Component {
         return tasks
     }
   }
-
+  //помечаем задачу как выполненную
   completeTaskHandler = (id) => {
     this.setState((state) => ({
       tasks: this.toggleProperty(state.tasks, id, 'completed'),
@@ -107,8 +107,9 @@ export default class App extends Component {
     })
   }
 
-  onTaskCreate = (label) => {
-    this.setState((state) => ({ tasks: [this.createTask(label), ...state.tasks] }))
+  //создание задачи
+  onTaskAdded = (label) => {
+    this.setState((state) => ({ tasks: [this.createNewTask(label), ...state.tasks] }))
   }
 
   /*очистка завершенных задач (фильтруем массив, оставляем только !task.completed*/

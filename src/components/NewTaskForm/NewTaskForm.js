@@ -6,16 +6,18 @@ export default class NewTaskForm extends Component {
     label: '',
   }
 
+  //вызывается, когда input изменяется
   onLabelChange = (e) => {
     this.setState({
       label: e.target.value,
     })
   }
 
+  //обрабатываем
   onSubmit = (e) => {
     //исключение действия по умолчанию (стр не перезагружается)
     e.preventDefault()
-    this.props.onTaskCreate(this.state.label)
+    this.props.onTaskAdded(this.state.label)
     this.setState({
       label: '',
     })
@@ -24,12 +26,13 @@ export default class NewTaskForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
+        //отправка данных формы
         <input
           className="new-todo"
           value={this.state.label}
           placeholder="What needs to be done?"
           //autoFocus
-          onChange={this.onLabelChange}
+          onChange={this.onLabelChange} // обработчик введенных данных
         />
       </form>
     )
