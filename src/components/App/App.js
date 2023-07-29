@@ -119,7 +119,7 @@ export default class App extends Component {
   }
 
   /*обработка кликов на кнопки-фильтры*/
-  filterHandler = (param) => {
+  onFilter = (param) => {
     this.setState((state) => {
       const filters = state.filters.map((filter) => ({
         ...filter,
