@@ -123,11 +123,13 @@ export default class App extends Component {
     this.setState((state) => {
       const filters = state.filters.map((filter) => ({
         ...filter,
+        //формируем активный фильтр
         active: filter.param === param,
       }))
 
       return {
         filters,
+        //активный фильтр
         activeFilter: param,
       }
     })
