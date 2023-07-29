@@ -11,8 +11,8 @@ export default class App extends Component {
 
   state = {
     tasks: [],
-    activeFilter: 'all',
-    //набор фильтров-кнопок (param - замена key)
+    activeFilter: 'all', //фильтр по умолчанию
+    //набор фильтров-кнопок (param - key)
     filters: [
       { label: 'All', param: 'all', active: true },
       { label: 'Active', param: 'active', active: false },
@@ -163,9 +163,9 @@ export default class App extends Component {
         <Footer
           /*количество активных дел*/
           todoCount={todoCount}
-          /*onFilter={this.filterHandler} - обработка клика на кнопку-фильтр*/
+          /*обработка клика на кнопку-фильтр*/
           onFilter={this.filterHandler}
-          /*filters={filters} - передаем значение кнопок-фильтров в Footer*/
+          /*передаем значение кнопок-фильтров в Footer*/
           filters={filters}
           /*удаление активных задач*/
           onClearСompleted={this.onClearСompleted}

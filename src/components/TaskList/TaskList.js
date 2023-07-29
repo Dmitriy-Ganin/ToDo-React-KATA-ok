@@ -23,7 +23,7 @@ export default class TaskList extends Component {
 
   render() {
     const { tasks, onComplete, onDeleted, onEditStart, onEditEnd } = this.props
-    const taskElems = tasks.map((task) => (
+    const taskElements = tasks.map((task) => (
       <Task
         {...task}
         key={task.id}
@@ -31,12 +31,12 @@ export default class TaskList extends Component {
         onComplete={() => onComplete(task.id)}
         //передаю в функцию удаления задачи ее id
         onDeleted={() => onDeleted(task.id)}
-        //передаю в функцию изменения задачи ее id
+        //передаю в функцию начала изменения задачи ее id
         onEditStart={() => onEditStart(task.id)}
         onEditEnd={(taskLabel, id) => onEditEnd(taskLabel, id)}
       />
     ))
 
-    return <ul className="todo-list">{taskElems}</ul>
+    return <ul className="todo-list">{taskElements}</ul>
   }
 }

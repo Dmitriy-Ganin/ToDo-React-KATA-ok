@@ -8,6 +8,7 @@ const TaskFilter = (props) => {
     <ul className="filters">
       {filters.map((filter) => (
         <li key={filter.param}>
+          {/*key-param*/}
           <button type="button" className={filter.active ? 'selected' : ''} onClick={() => onFilter(filter.param)}>
             {/*onClick={() => onFilter - событие - обработчик клика*/}
             {filter.label} {/*название кнопки*/}
