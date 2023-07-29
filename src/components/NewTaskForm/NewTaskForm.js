@@ -25,8 +25,8 @@ export default class NewTaskForm extends Component {
 
   render() {
     return (
+      /*отправка данных формы*/
       <form onSubmit={this.onSubmit}>
-        //отправка данных формы
         <input
           className="new-todo"
           value={this.state.label}
