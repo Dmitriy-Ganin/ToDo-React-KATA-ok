@@ -28,7 +28,7 @@ export default class App extends Component {
     id: this.maxId++,
   })
 
-  //добавление задачи
+  //Изменение статуса задачи
   toggleProperty = (arr, id, prop) => {
     const index = arr.findIndex((el) => el.id === id)
     // 1. update object
