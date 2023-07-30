@@ -120,7 +120,7 @@ export default class App extends Component {
   }
 
   /*обработка кликов на кнопки-фильтры*/
-  onFilter = (param) => {
+  filterHandler = (param) => {
     this.setState((state) => {
       const filters = state.filters.map((filter) => ({
         ...filter,
@@ -149,7 +149,7 @@ export default class App extends Component {
       <section className="todoapp">
         <header className="header">
           <h1>ToDo</h1>
-          <NewTaskForm onTaskCreate={this.onTaskCreate} />
+          <NewTaskForm onTaskAdded={this.onTaskAdded} />
         </header>
         <section className="main">
           <TaskList

@@ -38,7 +38,7 @@ export default class Task extends Component {
   }
   //вызываем перед отправкой данных формы
   //e содержит информацию о событии, которое наступило, и делали этого события
-  onSubmitHandler = (e) => {
+  onSubmit = (e) => {
     //отменяет перезагрузку страницы
     e.preventDefault()
     //получаем onEditEnd и id из props
@@ -56,7 +56,7 @@ export default class Task extends Component {
     if (editing) {
       return (
         //событие, происходящее перед отправкой формы вызывает функцию onSubmitHandler
-        <form onSubmit={this.onSubmitHandler}>
+        <form onSubmit={this.onSubmit}>
           <input type="text" className="edit" value={this.state.taskLabel} onChange={this.onTaskEdit} />
         </form>
       )
