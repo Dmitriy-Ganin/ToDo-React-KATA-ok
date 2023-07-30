@@ -59,19 +59,19 @@ export default class App extends Component {
     }
   }
   //помечаем задачу как выполненную
-  completeTaskHandler = (id) => {
+  onComplete = (id) => {
     this.setState((state) => ({
       tasks: this.toggleProperty(state.tasks, id, 'completed'),
     }))
   }
   //удаляем задачу (оставляем все задачи, кроме удаленной)
-  deleteTaskHandler = (id) => {
+  onDeleted = (id) => {
     this.setState(() => ({
       tasks: this.state.tasks.filter((task) => task.id !== id),
     }))
   }
   //изменение задачи (начало)
-  editStartTaskHandler = (id) => {
+  onEditStart = (id) => {
     this.setState((state) => {
       const tasks = state.tasks.map((task) => ({
         ...task,
@@ -86,7 +86,7 @@ export default class App extends Component {
   }
   //изменение задачи (конец)
   //.map конструирует новый массив, в state применять можно.
-  editEndTaskHandler = (value, id) => {
+  onEditEnd = (value, id) => {
     this.setState((state) => {
       //конструируем новый массив
       const tasks = state.tasks.map((task) => {
@@ -120,7 +120,7 @@ export default class App extends Component {
   }
 
   /*обработка кликов на кнопки-фильтры*/
-  filterHandler = (param) => {
+  onFilter = (param) => {
     this.setState((state) => {
       const filters = state.filters.map((filter) => ({
         ...filter,
@@ -154,20 +154,20 @@ export default class App extends Component {
         <section className="main">
           <TaskList
             tasks={filteredTasks}
-            onComplete={this.completeTaskHandler}
+            onComplete={this.onComplete}
             /*удаление задачи*/
-            onDeleted={this.deleteTaskHandler}
+            onDeleted={this.onDeleted}
             /*изменение задачи начало*/
-            onEditStart={this.editStartTaskHandler}
+            onEditStart={this.onEditStart}
             /*изменение задачи конец*/
-            onEditEnd={this.editEndTaskHandler}
+            onEditEnd={this.onEditEnd}
           />
         </section>
         <Footer
           /*количество активных дел*/
           todoCount={todoCount}
           /*обработка клика на кнопку-фильтр*/
-          onFilter={this.filterHandler}
+          onFilter={this.onFilter}
           /*передаем значение кнопок-фильтров в Footer*/
           filters={filters}
           /*удаление активных задач*/
