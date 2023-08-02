@@ -45,8 +45,10 @@ export default class Task extends Component {
     const { onEditEnd, id } = this.props
     //получаем taskLabel из state (стр 29-30)
     const { taskLabel } = this.state
-    //изменение задачи. начало
-    onEditEnd(taskLabel, id)
+    if (taskLabel.trim()) {
+      //изменение задачи. начало
+      onEditEnd(taskLabel.trim(), id)
+    }
   }
 
   getEditField = () => {
