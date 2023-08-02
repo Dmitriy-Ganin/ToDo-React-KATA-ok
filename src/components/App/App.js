@@ -11,13 +11,7 @@ export default class App extends Component {
 
   state = {
     tasks: [],
-    activeFilter: 'all', //фильтр по умолчанию
-    //набор фильтров-кнопок (param - key)
-    filters: [
-      { label: 'All', param: 'all', active: true },
-      { label: 'Active', param: 'active', active: false },
-      { label: 'Completed', param: 'completed', active: false },
-    ],
+    activefilter: 'all', //фильтр по умолчанию
   }
   //создание задачи
   createNewTask = (label) => ({
@@ -43,8 +37,9 @@ export default class App extends Component {
 
   //фильтр в зависимости от состояния задачи
   getFilteredTasks = () => {
-    const { activeFilter, tasks } = this.state
-    switch (activeFilter) {
+    const { activefilter, tasks } = this.state
+    console.log(activefilter)
+    switch (activefilter) {
       //все
       case 'all':
         return tasks
@@ -66,8 +61,8 @@ export default class App extends Component {
   }
   //удаляем задачу (оставляем все задачи, кроме удаленной)
   onDeleted = (id) => {
-    this.setState(() => ({
-      tasks: this.state.tasks.filter((task) => task.id !== id),
+    this.setState(({ tasks }) => ({
+      tasks: tasks.filter((task) => task.id !== id),
     }))
   }
   //изменение задачи (начало)
@@ -120,25 +115,13 @@ export default class App extends Component {
   }
 
   /*обработка кликов на кнопки-фильтры*/
-  onFilter = (param) => {
-    this.setState((state) => {
-      const filters = state.filters.map((filter) => ({
-        ...filter,
-        //формируем активный фильтр
-        active: filter.param === param,
-      }))
-
-      return {
-        filters,
-        //активный фильтр
-        activeFilter: param,
-      }
-    })
+  onFilter = (value) => {
+    this.setState({ activefilter: value })
   }
 
   render() {
     //деструктурируем (извлекаем две константы из state: tasks и filters)
-    const { tasks, filters } = this.state
+    const { tasks, activefilter } = this.state
     //отображение задач согласно выбранному фильтру
     const filteredTasks = this.getFilteredTasks()
 
@@ -169,7 +152,7 @@ export default class App extends Component {
           /*обработка клика на кнопку-фильтр*/
           onFilter={this.onFilter}
           /*передаем значение кнопок-фильтров в Footer*/
-          filters={filters}
+          activefilter={activefilter}
           /*удаление активных задач*/
           onClearСompleted={this.onClearСompleted}
         />

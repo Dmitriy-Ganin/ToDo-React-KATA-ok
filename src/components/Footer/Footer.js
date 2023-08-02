@@ -19,12 +19,12 @@ export default class Footer extends Component {
   }
 
   render() {
-    const { todoCount, onFilter, onClearСompleted, filters } = this.props
+    const { todoCount, onFilter, onClearСompleted, activefilter } = this.props
     //Строка 27 -передаем значение фильтра и массив кнопок-фильтров в TaskFilter
     return (
       <footer className="footer">
         <span className="todo-count">{todoCount} items left</span>
-        <TaskFilter onFilter={onFilter} filters={filters} />
+        <TaskFilter onFilter={onFilter} activefilter={activefilter} />
         <button className="clear-completed" onClick={onClearСompleted}>
           Clear completed
         </button>

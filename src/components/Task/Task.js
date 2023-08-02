@@ -1,7 +1,11 @@
 import { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import PropTypes from 'prop-types'
-import './Task.css'
+import classNames from 'classnames/bind'
+
+import styles from './Task.css'
+
+let cx = classNames.bind(styles)
 
 export default class Task extends Component {
   static defaultProps = {
@@ -51,27 +55,31 @@ export default class Task extends Component {
     }
   }
 
-  getEditField = () => {
-    //извлекаем из props editing, по нему смотрим на изменении или нет
-    const { editing } = this.props
-    //если на изменении, выводим инпут
-    if (editing) {
-      return (
-        //событие, происходящее перед отправкой формы вызывает функцию onSubmitHandler
-        <form onSubmit={this.onSubmit}>
-          <input type="text" className="edit" value={this.state.taskLabel} onChange={this.onTaskEdit} />
-        </form>
-      )
-    }
-  }
+  //getEditField = () => {
+  //извлекаем из props editing, по нему смотрим на изменении или нет
+  // const { editing } = this.props
+  //если на изменении, выводим инпут
+  // if (editing) {
+  //  return (
+  //событие, происходящее перед отправкой формы вызывает функцию onSubmitHandler
+  //   <form onSubmit={this.onSubmit}>
+  //     <input type="text" className="edit" value={this.state.taskLabel} onChange={this.onTaskEdit} />
+  //   </form>
+  // )
+  //}
+  //}
 
   render() {
     const { completed, editing, id, description, createTime, onComplete, onEditStart, onDeleted } = this.props
 
-    const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')
-
+    // const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')
+    let btnClass = cx({
+      '': true,
+      completed: completed,
+      editing: editing,
+    })
     return (
-      <li className={classNames} key={id}>
+      <li className={btnClass}>
         <div className="view">
           <input className="toggle" type="checkbox" id={`${id}__check`} onChange={onComplete} checked={completed} />
           <label htmlFor={`${id}__check`}>
@@ -82,7 +90,11 @@ export default class Task extends Component {
           <button className="icon icon-destroy" onClick={onDeleted} />
         </div>
 
-        {this.getEditField()}
+        {editing && (
+          <form onSubmit={this.onSubmit}>
+            <input type="text" className="edit" value={this.state.taskLabel} onChange={this.onTaskEdit} />
+          </form>
+        )}
       </li>
     )
   }

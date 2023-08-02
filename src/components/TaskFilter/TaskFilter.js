@@ -1,22 +1,24 @@
+import { Component } from 'react'
 //import React from 'react'
 import './TaskFilter.css'
 
-const TaskFilter = (props) => {
-  const { onFilter, filters } = props
+export default class TasksFilter extends Component {
+  filters = [{ label: 'all' }, { label: 'active' }, { label: 'completed' }]
+  render() {
+    const { activefilter, onFilter } = this.props
 
-  return (
-    <ul className="filters">
-      {filters.map((filter) => (
-        <li key={filter.param}>
-          {/*key-param*/}
-          <button type="button" className={filter.active ? 'selected' : ''} onClick={() => onFilter(filter.param)}>
-            {/*onClick={() => onFilter - событие - обработчик клика*/}
-            {filter.label} {/*название кнопки*/}
+    const buttons = this.filters.map(({ label }) => {
+      const isActive = activefilter === label
+      const clazz = isActive ? 'selected' : null
+      return (
+        <li key={label}>
+          <button className={clazz} onClick={() => onFilter(label)}>
+            {label.charAt(0).toUpperCase() + label.slice(1)}
           </button>
         </li>
-      ))}
-    </ul>
-  )
-}
+      )
+    })
 
-export default TaskFilter
+    return <ul className="filters">{buttons}</ul>
+  }
+}
