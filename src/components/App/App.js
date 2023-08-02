@@ -11,7 +11,7 @@ export default class App extends Component {
 
   state = {
     tasks: [],
-    activefilter: 'all', //фильтр по умолчанию
+    activeFilter: 'all', //фильтр по умолчанию
   }
   //создание задачи
   createNewTask = (label) => ({
@@ -37,9 +37,9 @@ export default class App extends Component {
 
   //фильтр в зависимости от состояния задачи
   getFilteredTasks = () => {
-    const { activefilter, tasks } = this.state
-    console.log(activefilter)
-    switch (activefilter) {
+    const { activeFilter, tasks } = this.state
+    console.log(activeFilter)
+    switch (activeFilter) {
       //все
       case 'all':
         return tasks
@@ -116,12 +116,12 @@ export default class App extends Component {
 
   /*обработка кликов на кнопки-фильтры*/
   onFilter = (value) => {
-    this.setState({ activefilter: value })
+    this.setState({ activeFilter: value })
   }
 
   render() {
     //деструктурируем (извлекаем две константы из state: tasks и filters)
-    const { tasks, activefilter } = this.state
+    const { tasks, activeFilter } = this.state
     //отображение задач согласно выбранному фильтру
     const filteredTasks = this.getFilteredTasks()
 
@@ -152,7 +152,7 @@ export default class App extends Component {
           /*обработка клика на кнопку-фильтр*/
           onFilter={this.onFilter}
           /*передаем значение кнопок-фильтров в Footer*/
-          activefilter={activefilter}
+          activeFilter={activeFilter}
           /*удаление активных задач*/
           onClearСompleted={this.onClearСompleted}
         />
