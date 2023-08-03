@@ -4,7 +4,11 @@ import PropTypes from 'prop-types'
 import './TaskFilter.css'
 
 export default class TasksFilter extends Component {
-  filters = [{ label: 'all' }, { label: 'active' }, { label: 'completed' }]
+  filters = [
+    { label: 'all', selected: true },
+    { label: 'active', selected: false },
+    { label: 'completed', selected: false },
+  ]
   render() {
     const { activeFilter, onFilter } = this.props
 
