@@ -12,14 +12,17 @@ export default class App extends Component {
   state = {
     tasks: [],
     activeFilter: 'all', //фильтр по умолчанию
+    isTimerOn: false,
   }
   //создание задачи
-  createNewTask = (label) => ({
+  createNewTask = (label, min, sec) => ({
     description: label,
     createTime: new Date(),
     completed: false,
     editing: false,
     id: this.maxId++,
+    minutes: min,
+    seconds: sec,
   })
 
   //Изменение статуса задачи
@@ -103,8 +106,8 @@ export default class App extends Component {
   }
 
   //создание задачи
-  onTaskAdded = (label) => {
-    this.setState((state) => ({ tasks: [this.createNewTask(label), ...state.tasks] }))
+  onTaskAdded = (label, min, sec) => {
+    this.setState((state) => ({ tasks: [this.createNewTask(label, min, sec), ...state.tasks] }))
   }
 
   /*очистка завершенных задач (фильтруем массив, оставляем только !task.completed*/
@@ -117,6 +120,35 @@ export default class App extends Component {
   /*обработка кликов на кнопки-фильтры*/
   onFilter = (value) => {
     this.setState({ activeFilter: value })
+  }
+
+  startTimer = (id) => {
+    if (!this.state.isTimerOn) {
+      this.timer = setInterval(() => {
+        this.setState(({ tasks }) => {
+          const idx = tasks.findIndex((elem) => elem.id === id)
+          const oldItem = tasks[idx]
+          let newItem = { ...oldItem, seconds: oldItem.seconds - 1 }
+          if (newItem.seconds < 0) {
+            newItem = { ...newItem, minutes: oldItem.minutes - 1, seconds: 59 }
+          }
+          if (newItem.seconds === 0 && newItem.minutes === 0) {
+            clearInterval(this.timer)
+            this.setState({ isTimerOn: false })
+          }
+          const newArr = [...tasks.slice(0, idx), newItem, ...tasks.slice(idx + 1)]
+          return {
+            tasks: newArr,
+            isTimerOn: true,
+          }
+        })
+      }, 1000)
+    }
+  }
+
+  pauseTimer = () => {
+    clearInterval(this.timer)
+    this.setState({ isTimerOn: false })
   }
 
   render() {
@@ -144,6 +176,8 @@ export default class App extends Component {
             onEditStart={this.onEditStart}
             /*изменение задачи конец*/
             onEditEnd={this.onEditEnd}
+            startTimer={(id) => this.startTimer(id)}
+            pauseTimer={() => this.pauseTimer()}
           />
         </section>
         <Footer

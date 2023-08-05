@@ -70,7 +70,20 @@ export default class Task extends Component {
   //}
 
   render() {
-    const { completed, editing, id, description, createTime, onComplete, onEditStart, onDeleted } = this.props
+    const {
+      completed,
+      editing,
+      id,
+      description,
+      createTime,
+      onComplete,
+      onEditStart,
+      onDeleted,
+      startTimer,
+      pauseTimer,
+      minutes,
+      seconds,
+    } = this.props
 
     // const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')
     let btnClass = cx({
@@ -83,7 +96,12 @@ export default class Task extends Component {
         <div className="view">
           <input className="toggle" type="checkbox" id={`${id}__check`} onChange={onComplete} checked={completed} />
           <label htmlFor={`${id}__check`}>
-            <span className="description">{description}</span>
+            <span className="title">
+              {description}
+              <button className="icon icon-play" onClick={startTimer}></button>
+              <button className="icon icon-pause" onClick={pauseTimer}></button>
+              {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </span>
             <span className="created">{formatDistanceToNow(createTime)}</span>
           </label>
           <button className="icon icon-edit" onClick={onEditStart} />

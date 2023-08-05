@@ -21,12 +21,19 @@ export default class TaskList extends Component {
     onEditEnd: PropTypes.func,
   }
 
+  state = {
+    minutes: this.props.tasks.minutes,
+    seconds: this.props.tasks.seconds,
+  }
+
   render() {
-    const { tasks, onComplete, onDeleted, onEditStart, onEditEnd } = this.props
+    const { tasks, onComplete, onDeleted, onEditStart, onEditEnd, startTimer, pauseTimer } = this.props
     const taskElements = tasks.map((task) => (
       <Task
         {...task}
         key={task.id}
+        minutes={task.minutes}
+        seconds={task.seconds}
         //передаю в функцию помечания выполненной задачи ее id
         onComplete={() => onComplete(task.id)}
         //передаю в функцию удаления задачи ее id
@@ -34,6 +41,8 @@ export default class TaskList extends Component {
         //передаю в функцию начала изменения задачи ее id
         onEditStart={() => onEditStart(task.id)}
         onEditEnd={(taskLabel, id) => onEditEnd(taskLabel, id)}
+        startTimer={() => startTimer(task.id)}
+        pauseTimer={() => pauseTimer()}
       />
     ))
 
