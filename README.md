@@ -1,3 +1,3 @@
-https://to-do-react-kata-ok-dmitriy-ganin.vercel.app/
+https://to-do-react-kata-ok.vercel.app/
 
-https://react-kata-timer.vercel.app/ - timer
+https://to-do-react-kata-ok-timer.vercel.app/ - timer
