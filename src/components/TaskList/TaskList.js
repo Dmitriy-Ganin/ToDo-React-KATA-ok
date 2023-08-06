@@ -11,6 +11,8 @@ export default class TaskList extends Component {
     onDeleted: () => {},
     onEditStart: () => {},
     onEditEnd: () => {},
+    startTimer: () => {},
+    pauseTimer: () => {},
   }
 
   static propTypes = {
@@ -19,6 +21,8 @@ export default class TaskList extends Component {
     onDeleted: PropTypes.func,
     onEditStart: PropTypes.func,
     onEditEnd: PropTypes.func,
+    startTimer: PropTypes.func,
+    pauseTimer: PropTypes.func,
   }
 
   state = {

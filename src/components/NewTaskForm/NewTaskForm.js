@@ -30,13 +30,13 @@ export default class NewTaskForm extends Component {
     }
   }
 
-  onChangeMinute = (event) => {
+  onEditMinute = (event) => {
     this.setState({
       minutes: Number(event.target.value),
     })
   }
 
-  onChangeSecond = (event) => {
+  onEditSecond = (event) => {
     this.setState({
       seconds: event.target.value,
     })
@@ -61,14 +61,14 @@ export default class NewTaskForm extends Component {
           placeholder="Min"
           type="number"
           min={0}
-          onChange={this.onChangeMinute}
+          onChange={this.onEditMinute}
           value={this.state.minutes}
         ></input>
         <input
           className="new-todo-form__timer"
           type="number"
           placeholder="Sec"
-          onChange={this.onChangeSecond}
+          onChange={this.onEditSecond}
           value={this.state.seconds}
           min={1}
           max={59}

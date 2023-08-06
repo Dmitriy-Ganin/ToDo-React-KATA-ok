@@ -14,6 +14,8 @@ export default class Task extends Component {
     id: 100,
     description: '',
     createTime: new Date(),
+    min: 0,
+    sec: 0,
     onComplete: () => {},
     onEditStart: () => {},
     onDeleted: () => {},
@@ -28,6 +30,8 @@ export default class Task extends Component {
     onComplete: PropTypes.func,
     onEditStart: PropTypes.func,
     onDeleted: PropTypes.func,
+    min: PropTypes.number,
+    sec: PropTypes.number,
   }
 
   state = {

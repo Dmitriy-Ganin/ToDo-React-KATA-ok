@@ -176,8 +176,8 @@ export default class App extends Component {
             onEditStart={this.onEditStart}
             /*изменение задачи конец*/
             onEditEnd={this.onEditEnd}
-            startTimer={(id) => this.startTimer(id)}
-            pauseTimer={() => this.pauseTimer()}
+            startTimer={this.startTimer}
+            pauseTimer={this.pauseTimer}
           />
         </section>
         <Footer
