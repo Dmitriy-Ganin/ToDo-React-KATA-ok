@@ -133,6 +133,9 @@ export default class App extends Component {
         this.setState((prevState) => {
           const updateTodo = prevState.tasks.map((todoItem) => {
             if (todoItem.id === id) {
+              if (todoItem.seconds === 0 && todoItem.minutes === 0) {
+                this.pauseTimer(id)
+              }
               let sec = todoItem.seconds - 1
               let min = todoItem.minutes
               if (min > 0 && sec === 0) {
