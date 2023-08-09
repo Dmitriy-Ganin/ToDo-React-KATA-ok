@@ -12,7 +12,8 @@ export default class App extends Component {
   state = {
     tasks: [],
     activeFilter: 'all', //фильтр по умолчанию
-    isTimerOn: false,
+    minutes: '',
+    seconds: '',
   }
   //создание задачи
   createNewTask = (label, min, sec) => ({
@@ -23,6 +24,8 @@ export default class App extends Component {
     id: this.maxId++,
     minutes: min,
     seconds: sec,
+    timerId: null,
+    isTimerOn: false,
   })
 
   //Изменение статуса задачи
@@ -41,7 +44,7 @@ export default class App extends Component {
   //фильтр в зависимости от состояния задачи
   getFilteredTasks = () => {
     const { activeFilter, tasks } = this.state
-    console.log(activeFilter)
+    //console.log(activeFilter)
     switch (activeFilter) {
       //все
       case 'all':
@@ -123,32 +126,65 @@ export default class App extends Component {
   }
 
   startTimer = (id) => {
-    if (!this.state.isTimerOn) {
-      this.timer = setInterval(() => {
-        this.setState(({ tasks }) => {
-          const idx = tasks.findIndex((elem) => elem.id === id)
-          const oldItem = tasks[idx]
-          let newItem = { ...oldItem, seconds: oldItem.seconds - 1 }
-          if (newItem.seconds < 0) {
-            newItem = { ...newItem, minutes: oldItem.minutes - 1, seconds: 59 }
-          }
-          if (newItem.seconds === 0 && newItem.minutes === 0) {
-            clearInterval(this.timer)
-            this.setState({ isTimerOn: false })
-          }
-          const newArr = [...tasks.slice(0, idx), newItem, ...tasks.slice(idx + 1)]
+    const { isTimerOn } = this.state.tasks.find((el) => el.id === id)
+
+    if (!isTimerOn) {
+      const timerId = setInterval(() => {
+        this.setState((prevState) => {
+          const updateTodo = prevState.tasks.map((todoItem) => {
+            if (todoItem.id === id) {
+              let sec = todoItem.seconds - 1
+              let min = todoItem.minutes
+              if (min > 0 && sec === 0) {
+                min -= 1
+                sec = 59
+              }
+              if (sec === 0 || sec < 0) {
+                sec = 0
+                this.pauseTimer(id)
+              }
+
+              return {
+                ...todoItem,
+                seconds: sec,
+                minutes: min,
+              }
+            }
+
+            return todoItem
+          })
+
           return {
-            tasks: newArr,
-            isTimerOn: true,
+            tasks: updateTodo,
           }
         })
       }, 1000)
+      this.setState(({ tasks }) => {
+        const idx = tasks.findIndex((el) => el.id === id)
+        const data = [...tasks]
+        data[idx].timerId = timerId
+        data[idx].isTimerOn = true
+
+        return {
+          tasks: data,
+        }
+      })
     }
   }
 
-  pauseTimer = () => {
-    clearInterval(this.timer)
-    this.setState({ isTimerOn: false })
+  pauseTimer = (id) => {
+    //console.log(this.state.tasks.find((el) => el.id === id))
+    const { timerId } = this.state.tasks.find((el) => el.id === id)
+    this.setState(({ tasks }) => {
+      const idx = tasks.findIndex((el) => el.id === id)
+      const data = [...tasks]
+      data[idx].isTimerOn = false
+
+      return {
+        tasks: data,
+      }
+    })
+    clearInterval(timerId)
   }
 
   render() {

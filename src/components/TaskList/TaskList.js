@@ -46,7 +46,7 @@ export default class TaskList extends Component {
         onEditStart={() => onEditStart(task.id)}
         onEditEnd={(taskLabel, id) => onEditEnd(taskLabel, id)}
         startTimer={() => startTimer(task.id)}
-        pauseTimer={() => pauseTimer()}
+        pauseTimer={() => pauseTimer(task.id)}
       />
     ))
 
