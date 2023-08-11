@@ -67,6 +67,8 @@ export default class App extends Component {
   }
   //удаляем задачу (оставляем все задачи, кроме удаленной)
   onDeleted = (id) => {
+    //задача удаляется - останавливаем таймер
+    this.pauseTimer(id)
     this.setState(({ tasks }) => ({
       tasks: tasks.filter((task) => task.id !== id),
     }))
@@ -138,11 +140,12 @@ export default class App extends Component {
               }
               let sec = todoItem.seconds - 1
               let min = todoItem.minutes
-              if (min > 0 && sec === 0) {
+              if (min > 0 && sec < 0) {
                 min -= 1
                 sec = 59
               }
-              if (sec === 0 || sec < 0) {
+
+              if (min === 0 && sec < 0) {
                 sec = 0
                 this.pauseTimer(id)
               }
@@ -177,17 +180,21 @@ export default class App extends Component {
 
   pauseTimer = (id) => {
     //console.log(this.state.tasks.find((el) => el.id === id))
-    const { timerId } = this.state.tasks.find((el) => el.id === id)
-    this.setState(({ tasks }) => {
-      const idx = tasks.findIndex((el) => el.id === id)
-      const data = [...tasks]
-      data[idx].isTimerOn = false
+    const { isTimerOn } = this.state.tasks.find((el) => el.id === id)
+    if (isTimerOn) {
+      const { timerId } = this.state.tasks.find((el) => el.id === id)
+      this.setState(({ tasks }) => {
+        const idx = tasks.findIndex((el) => el.id === id)
+        const data = [...tasks]
+        data[idx].isTimerOn = false
 
-      return {
-        tasks: data,
-      }
-    })
-    clearInterval(timerId)
+        return {
+          tasks: data,
+        }
+      })
+      clearInterval(timerId)
+      console.log('Удалено')
+    }
   }
 
   render() {
