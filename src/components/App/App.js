@@ -193,7 +193,6 @@ export default class App extends Component {
         }
       })
       clearInterval(timerId)
-      console.log('Удалено')
     }
   }
 
