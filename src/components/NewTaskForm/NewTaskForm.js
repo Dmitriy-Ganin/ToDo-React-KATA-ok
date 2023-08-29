@@ -1,82 +1,77 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import './NewTaskForm.css'
 import PropTypes from 'prop-types'
 
-export default class NewTaskForm extends Component {
-  state = {
-    label: '',
-    minutes: '',
-    seconds: '',
-  }
+export default function NewTaskForm({ onTaskAdded }) {
+  const [label, setLabel] = useState('')
+  const [minutes, setMin] = useState('')
+  const [seconds, setSec] = useState('')
+
+  //export default class NewTaskForm extends Component {
+  // state = {
+  // label: '',
+  // minutes: '',
+  // seconds: '',
+  // }
 
   //вызывается, когда input изменяется
-  onLabelChange = (e) => {
-    this.setState({
-      label: e.target.value,
-    })
+  const onLabelChange = (e) => {
+    setLabel(e.target.value)
   }
 
   //обрабатываем
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     //исключение действия по умолчанию (стр не перезагружается)
     e.preventDefault()
-    if (this.state.label.trim()) {
-      this.props.onTaskAdded(this.state.label.trim(), this.state.minutes, this.state.seconds)
-      this.setState({
-        label: '',
-        minutes: '',
-        seconds: '',
-      })
+    if (label.trim()) {
+      onTaskAdded(label.trim(), minutes, seconds)
+      setLabel('')
+      setMin('')
+      setSec('')
     }
   }
 
-  onEditMinute = (event) => {
-    this.setState({
-      minutes: Number(event.target.value),
-    })
+  const onEditMinute = (event) => {
+    setMin(event.target.value)
   }
 
-  onEditSecond = (event) => {
-    this.setState({
-      seconds: event.target.value,
-    })
+  const onEditSecond = (event) => {
+    setSec(event.target.value)
   }
 
-  render() {
-    return (
-      /*отправка данных формы*/
-      <form className="new-todo-form" onSubmit={this.onSubmit}>
-        <input
-          className="new-todo"
-          value={this.state.label}
-          placeholder="What needs to be done?"
-          //required
-          //pattern="^[^\s]+(\s.*)?$"
-          //title="Поле не должно быть пустым"
+  return (
+    /*отправка данных формы*/
+    <form className="new-todo-form" onSubmit={onSubmit}>
+      <input
+        className="new-todo"
+        value={label}
+        placeholder="What needs to be done?"
+        //required
+        //pattern="^[^\s]+(\s.*)?$"
+        //title="Поле не должно быть пустым"
 
-          onChange={this.onLabelChange} // обработчик введенных данных
-        />
-        <input
-          className="new-todo-form__timer"
-          placeholder="Min"
-          type="number"
-          min={0}
-          onChange={this.onEditMinute}
-          value={this.state.minutes}
-        ></input>
-        <input
-          className="new-todo-form__timer"
-          type="number"
-          placeholder="Sec"
-          onChange={this.onEditSecond}
-          value={this.state.seconds}
-          min={1}
-          max={59}
-        ></input>
-        <button type="submit" />
-      </form>
-    )
-  }
+        onChange={onLabelChange} // обработчик введенных данных
+      />
+      <input
+        className="new-todo-form__timer"
+        placeholder="Min"
+        type="number"
+        min={0}
+        onChange={onEditMinute}
+        value={minutes}
+      ></input>
+      <input
+        className="new-todo-form__timer"
+        type="number"
+        placeholder="Sec"
+        onChange={onEditSecond}
+        value={seconds}
+        min={1}
+        max={59}
+      ></input>
+      <button type="submit" />
+    </form>
+  )
 }
 
 NewTaskForm.defaultProps = {

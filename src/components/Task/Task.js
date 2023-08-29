@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
@@ -7,55 +7,41 @@ import styles from './Task.css'
 
 let cx = classNames.bind(styles)
 
-export default class Task extends Component {
-  static defaultProps = {
-    completed: false,
-    editing: false,
-    id: 100,
-    description: '',
-    createTime: new Date(),
-    min: 0,
-    sec: 0,
-    onComplete: () => {},
-    onEditStart: () => {},
-    onDeleted: () => {},
-  }
+//export default class Task extends Component {
+export function Task(props) {
+  const {
+    completed,
+    editing,
+    id,
+    description,
+    createTime,
+    onComplete,
+    onEditStart,
+    onEditEnd,
+    onDeleted,
+    startTimer,
+    pauseTimer,
+    minutes,
+    seconds,
+  } = props
 
-  static propTypes = {
-    completed: PropTypes.bool,
-    editing: PropTypes.bool,
-    id: PropTypes.number,
-    description: PropTypes.string,
-    createTime: PropTypes.instanceOf(Date),
-    onComplete: PropTypes.func,
-    onEditStart: PropTypes.func,
-    onDeleted: PropTypes.func,
-    min: PropTypes.number,
-    sec: PropTypes.number,
-  }
-
-  state = {
-    taskLabel: this.props.description,
-  }
+  const [stateLabel, setStateLabel] = useState(description)
   //изменение задачи. начало
-  onTaskEdit = (e) => {
-    this.setState({
-      //получаем текущее значение инпута
-      taskLabel: e.target.value,
-    })
+  const onTaskEdit = (e) => {
+    setStateLabel(e.target.value)
   }
   //вызываем перед отправкой данных формы
   //e содержит информацию о событии, которое наступило, и делали этого события
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     //отменяет перезагрузку страницы
     e.preventDefault()
     //получаем onEditEnd и id из props
-    const { onEditEnd, id } = this.props
+    //const { onEditEnd, id } = this.props
     //получаем taskLabel из state (стр 29-30)
-    const { taskLabel } = this.state
-    if (taskLabel.trim()) {
+    //const { taskLabel } = this.state
+    if (stateLabel.trim()) {
       //изменение задачи. начало
-      onEditEnd(taskLabel.trim(), id)
+      onEditEnd(stateLabel.trim(), id)
     }
   }
 
@@ -73,51 +59,60 @@ export default class Task extends Component {
   //}
   //}
 
-  render() {
-    const {
-      completed,
-      editing,
-      id,
-      description,
-      createTime,
-      onComplete,
-      onEditStart,
-      onDeleted,
-      startTimer,
-      pauseTimer,
-      minutes,
-      seconds,
-    } = this.props
+  // const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')
+  let btnClass = cx({
+    '': true,
+    completed: completed,
+    editing: editing,
+  })
+  return (
+    <li className={btnClass}>
+      <div className="view">
+        <input className="toggle" type="checkbox" id={`${id}__check`} onChange={onComplete} checked={completed} />
+        <label htmlFor={`${id}__check`}>
+          <span className="title">
+            {stateLabel}
+            <button className="icon icon-play" onClick={startTimer}></button>
+            <button className="icon icon-pause" onClick={pauseTimer}></button>
+            {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+          </span>
+          <span className="created">{formatDistanceToNow(createTime)}</span>
+        </label>
+        <button className="icon icon-edit" onClick={onEditStart} />
+        <button className="icon icon-destroy" onClick={onDeleted} />
+      </div>
 
-    // const classNames = [completed ? 'completed' : '', editing ? 'editing' : ''].join(' ')
-    let btnClass = cx({
-      '': true,
-      completed: completed,
-      editing: editing,
-    })
-    return (
-      <li className={btnClass}>
-        <div className="view">
-          <input className="toggle" type="checkbox" id={`${id}__check`} onChange={onComplete} checked={completed} />
-          <label htmlFor={`${id}__check`}>
-            <span className="title">
-              {description}
-              <button className="icon icon-play" onClick={startTimer}></button>
-              <button className="icon icon-pause" onClick={pauseTimer}></button>
-              {minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-            </span>
-            <span className="created">{formatDistanceToNow(createTime)}</span>
-          </label>
-          <button className="icon icon-edit" onClick={onEditStart} />
-          <button className="icon icon-destroy" onClick={onDeleted} />
-        </div>
+      {editing && (
+        <form onSubmit={onSubmit}>
+          <input type="text" className="edit" value={stateLabel} onChange={onTaskEdit} />
+        </form>
+      )}
+    </li>
+  )
+}
 
-        {editing && (
-          <form onSubmit={this.onSubmit}>
-            <input type="text" className="edit" value={this.state.taskLabel} onChange={this.onTaskEdit} />
-          </form>
-        )}
-      </li>
-    )
-  }
+Task.defaultProps = {
+  completed: false,
+  editing: false,
+  id: 100,
+  description: '',
+  createTime: new Date(),
+  min: 0,
+  sec: 0,
+  onComplete: () => {},
+  onEditStart: () => {},
+  onDeleted: () => {},
+}
+
+Task.propTypes = {
+  completed: PropTypes.bool,
+  editing: PropTypes.bool,
+  id: PropTypes.number,
+  description: PropTypes.string,
+  createTime: PropTypes.instanceOf(Date),
+  onComplete: PropTypes.func,
+  onEditStart: PropTypes.func,
+  onDeleted: PropTypes.func,
+  min: PropTypes.number,
+  sec: PropTypes.number,
 }
