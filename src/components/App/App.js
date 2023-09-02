@@ -7,12 +7,10 @@ import TaskList from '../TaskList'
 import './App.css'
 
 export default function App() {
-  //let maxId = 0
   const [uniqId, setUniqId] = useState(0)
   const [tasks, setTasks] = useState([])
   const [activeFilter, setActiveFilter] = useState('all')
 
-  //создание задачи
   const createNewTask = (label, min, sec) => {
     setUniqId(uniqId + 1)
     return {
@@ -28,55 +26,41 @@ export default function App() {
     }
   }
 
-  //Изменение статуса задачи
-  //onTaskClick
   const toggleProperty = (arr, id, prop) => {
     const index = arr.findIndex((el) => el.id === id)
-    // 1. update object
     const oldItem = arr[index]
     const newItem = { ...oldItem, [prop]: !oldItem[prop] }
-    // 2. construct new array
     const before = arr.slice(0, index)
     const after = arr.slice(index + 1)
-
     return [...before, newItem, ...after]
   }
 
-  //фильтр в зависимости от состояния задачи
-  //const filter&&onFilterChange
   const getFilteredTasks = () => {
     switch (activeFilter) {
-      //все
       case 'all':
         return tasks
-      //выполненные
       case 'active':
         return tasks.filter((task) => !task.completed)
-      //активные
       case 'completed':
         return tasks.filter((task) => task.completed)
       default:
         return tasks
     }
   }
-  //помечаем задачу как выполненную
-  //убрать,toggleProperty = onComplete
+
   const onComplete = (id) => {
     setTasks((tasks) => {
       return toggleProperty(tasks, id, 'completed')
     })
   }
 
-  //удаляем задачу (оставляем все задачи, кроме удаленной)
-  //onTaskDelete
   const onDeleted = (id) => {
-    //задача удаляется - останавливаем таймер
     pauseTimer(id)
     setTasks((tasks) => {
       return tasks.filter((task) => task.id !== id)
     })
   }
-  //изменение задачи (начало)
+
   const onEditStart = (id) => {
     setTasks((tasks) => {
       const editItems = tasks.map((item) => ({
@@ -87,8 +71,7 @@ export default function App() {
       return editItems
     })
   }
-  //изменение задачи (конец)
-  //.map конструирует новый массив, в state применять можно.
+
   const onEditEnd = (value, id) => {
     setTasks((tasks) => {
       const editItems = tasks.map((item) => {
@@ -103,7 +86,6 @@ export default function App() {
     })
   }
 
-  //создание задачи
   const onTaskAdded = (label, min, sec) => {
     const newTask = createNewTask(label, min, sec)
     setTasks((tasks) => {
@@ -111,16 +93,13 @@ export default function App() {
     })
   }
 
-  /*очистка завершенных задач (фильтруем массив, оставляем только !task.completed*/
   const onClearСompleted = () => {
     setTasks((tasks) => {
       return tasks.filter((task) => !task.completed)
     })
   }
 
-  /*обработка кликов на кнопки-фильтры*/
   const onFilter = (value) => {
-    //console.log(value)
     setActiveFilter(value)
   }
 
@@ -185,11 +164,7 @@ export default function App() {
     }
   }
 
-  //деструктурируем (извлекаем две константы из state: tasks и filters)
-  //отображение задач согласно выбранному фильтру
   const filteredTasks = getFilteredTasks()
-
-  /*количество активных (невыполненных) дел*/
   const todoCount = tasks.filter((task) => !task.completed).length
 
   return (
@@ -202,24 +177,17 @@ export default function App() {
         <TaskList
           tasks={filteredTasks}
           onComplete={onComplete}
-          /*удаление задачи*/
           onDeleted={onDeleted}
-          /*изменение задачи начало*/
           onEditStart={onEditStart}
-          /*изменение задачи конец*/
           onEditEnd={onEditEnd}
           startTimer={startTimer}
           pauseTimer={pauseTimer}
         />
       </section>
       <Footer
-        /*количество активных дел*/
         todoCount={todoCount}
-        /*обработка клика на кнопку-фильтр*/
         onFilter={onFilter}
-        /*передаем значение кнопок-фильтров в Footer*/
         activeFilter={activeFilter}
-        /*удаление активных задач*/
         onClearСompleted={onClearСompleted}
       />
     </section>

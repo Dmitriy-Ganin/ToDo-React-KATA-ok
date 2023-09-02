@@ -7,21 +7,11 @@ export default function NewTaskForm({ onTaskAdded }) {
   const [minutes, setMin] = useState('')
   const [seconds, setSec] = useState('')
 
-  //export default class NewTaskForm extends Component {
-  // state = {
-  // label: '',
-  // minutes: '',
-  // seconds: '',
-  // }
-
-  //вызывается, когда input изменяется
   const onLabelChange = (e) => {
     setLabel(e.target.value)
   }
 
-  //обрабатываем
   const onSubmit = (e) => {
-    //исключение действия по умолчанию (стр не перезагружается)
     e.preventDefault()
     if (label.trim()) {
       onTaskAdded(label.trim(), minutes, seconds)
@@ -40,18 +30,8 @@ export default function NewTaskForm({ onTaskAdded }) {
   }
 
   return (
-    /*отправка данных формы*/
     <form className="new-todo-form" onSubmit={onSubmit}>
-      <input
-        className="new-todo"
-        value={label}
-        placeholder="What needs to be done?"
-        //required
-        //pattern="^[^\s]+(\s.*)?$"
-        //title="Поле не должно быть пустым"
-
-        onChange={onLabelChange} // обработчик введенных данных
-      />
+      <input className="new-todo" value={label} placeholder="What needs to be done?" onChange={onLabelChange} />
       <input
         className="new-todo-form__timer"
         placeholder="Min"
